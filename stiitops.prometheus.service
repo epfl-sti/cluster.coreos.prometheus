@@ -5,8 +5,8 @@ Requires=docker.service
 
 [Service]
 ExecStartPre=/bin/sh -c 'docker rm -f %n 2>/dev/null || true'
-ExecStartPre=/usr/bin/docker pull epflsti/cluster.coreos.prometheusprime
-ExecStart=/bin/sh -c 'docker run --name %n -p 9090:9090 epflsti/cluster.coreos.prometheusprime'
+ExecStartPre=/usr/bin/docker pull docker-registry.ne.cloud.epfl.ch:5000/cluster.coreos.prometheus
+ExecStart=/bin/sh -c 'docker run --name %n -p 9090:9090 docker-registry.ne.cloud.epfl.ch:5000/cluster.coreos.prometheus'
 ExecStop=/usr/bin/docker rm -f %n
 RestartSec=5s
 Restart=always
