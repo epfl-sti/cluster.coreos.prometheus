@@ -28,7 +28,7 @@ scrape_configs:
     # scheme defaults to 'http'.
 
     target_groups:
-      - targets: ['prometheus-pushgateway.ne.cloud.epfl.ch:9091']
+      - targets: ['cluster-coreos-prometheus-pushgateway.service.consul:9091']
       - targets: ['localhost:9090']
         labels:
           instance: 'cluster_coreos_prometheus'
