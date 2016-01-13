@@ -1,0 +1,11 @@
+[Unit]
+Description=Prometheus pushgateway service
+After=docker.service
+Requires=docker.service
+
+[Service]
+ExecStartPre=/bin/sh -c 'docker rm -f %n 2>/dev/null || true'
+ExecStartPre=/usr/bin/docker pull registry.service.consul:5000/cluster.coreos.prometheus-pushgateway
+ExecStart=/bin/sh -c 'docker run --rm --name %n -p 9091:9091 registry.service.consul:5000/cluster.coreos.prometheus-pushgateway'
+RestartSec=5s
+Restart=always
