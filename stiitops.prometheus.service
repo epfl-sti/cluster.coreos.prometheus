@@ -6,7 +6,7 @@ Requires=docker.service
 [Service]
 ExecStartPre=/bin/sh -c 'docker rm -f %n 2>/dev/null || true'
 ExecStartPre=/usr/bin/docker pull registry.service.consul:5000/cluster.coreos.prometheus
-ExecStart=/bin/sh -c 'docker run --name %n -p 9090:9090 registry.service.consul:5000/cluster.coreos.prometheus'
+ExecStart=/bin/sh -c 'docker run --name %n -p 9090:9090 registry.service.consul:5000/cluster.coreos.prometheus -storage.local.retention=744h'
 ExecStop=/usr/bin/docker rm -f %n
 RestartSec=5s
 Restart=always
