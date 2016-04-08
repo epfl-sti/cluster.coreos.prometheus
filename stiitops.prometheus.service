@@ -1,3 +1,4 @@
+;; Watch Out: prometheus logs need a lot of space !!!
 [Unit]
 Description=Prometheus service
 After=docker.service
@@ -10,3 +11,7 @@ ExecStart=/bin/sh -c 'docker run --name %n -p 9090:9090 registry.service.consul:
 ExecStop=/usr/bin/docker rm -f %n
 RestartSec=5s
 Restart=always
+
+[X-Fleet]
+;; Be sure to launch it on a node with sufficient disc space
+MachineMetadata=text-disc_size=large
