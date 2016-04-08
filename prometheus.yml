@@ -13,6 +13,7 @@ global:
 rule_files:
   # - "first.rules"
   # - "second.rules"
+  - "/etc/prometheus/alert.rules"
 
 # A scrape configuration containing exactly one endpoint to scrape: 
 # Here it's Prometheus itself.
@@ -27,6 +28,9 @@ scrape_configs:
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
 
+    consul_sd_configs:
+      - server: 'consul.service.consul:8500'
+        
     target_groups:
       - targets: ['cluster-coreos-prometheus-pushgateway.service.consul:9091']
       - targets: ['localhost:9090']
