@@ -1,0 +1,18 @@
+[Unit]
+Description=node-exporter
+After=docker.service
+Requires=docker.service
+
+[Service]
+ExecStartPre=/bin/sh -c "docker history quay.io/prometheus/node-exporter:latest >/dev/null 2>&1 || docker pull quay.io/prometheus/node-exporter:latest"
+ExecStartPre=/bin/sh -c "docker inspect %n >/dev/null 2>&1 && docker rm -f %n || true"
+ExecStart=/usr/bin/docker run    -v "/proc:/host/proc" -v "/sys:/host/sys" -v "/:/rootfs" --publish=9191:9100 --name=%n \
+  quay.io/prometheus/node-exporter:latest \
+      -collector.procfs /host/proc \
+      -collector.sysfs /host/sys
+ExecStopPost=/bin/sh -c "usr/bin/docker rm -f %n"
+Restart=on-failure
+RestartSec=60
+
+[X-Fleet]
+Global=true
