@@ -1,0 +1,15 @@
+[Unit]
+Description=cAdvisor
+After=docker.service
+Requires=docker.service
+
+[Service]
+ExecStartPre=/bin/sh -c "docker history google/cadvisor:latest >/dev/null 2>&1 || docker pull google/cadvisor:latest"
+ExecStartPre=/bin/sh -c "docker inspect %n >/dev/null 2>&1 && docker rm -f %n || true"
+ExecStart=/usr/bin/docker run  	--volume=/:/rootfs:ro  	--volume=/var/run:/var/run:rw  	--volume=/sys:/sys:ro  	--volume=/var/lib/docker/:/var/lib/docker:ro  	--publish=8087:8080  	--name=%n  	google/cadvisor:latest
+ExecStopPost=/bin/sh -c "usr/bin/docker rm -f %n"
+Restart=on-failure
+RestartSec=5
+
+[X-Fleet]
+Global=true
