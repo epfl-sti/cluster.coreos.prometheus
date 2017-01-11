@@ -21,8 +21,8 @@ scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: 'prometheus'
 
-    # Override the global default and scrape targets from this job every 5 seconds.
-    scrape_interval: 5s
+    # Override the global default and scrape targets from this job every 10 seconds.
+    scrape_interval: 10s
     scrape_timeout: 10s
 
     # metrics_path defaults to '/metrics'
@@ -31,7 +31,7 @@ scrape_configs:
     consul_sd_configs:
       - server: 'consul.service.consul:8500'
         
-    target_groups:
+    static_configs:
       - targets: ['cluster-coreos-prometheus-pushgateway.service.consul:9091']
       - targets: ['localhost:9090']
         labels:
